@@ -1,3 +1,6 @@
+/**
+ * コメント
+ */
 function hello() {
-  return 'hello world!'
+  return 'Hello World!'
 }

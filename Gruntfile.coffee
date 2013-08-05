@@ -35,6 +35,20 @@ module.exports = (grunt) ->
           layout: 'byComponent'
           cleanTagetDir: true
           cleanBowerDir: false
+    regarde:
+      js:
+        files: ['javascripts/*.js']
+        tasks: ['uglify']
+      coffee:
+        files: ['coffee/*.coffee']
+        tasks: ['coffee', 'uglify']
+      css:
+        files: ['css/*.css']
+        tasks: ['csslint', 'concat', 'cssmin']
+      sass:
+        files: ['sass/*.sass']
+        tasks: ['sass', 'csslint', 'concat', 'cssmin']
+ 
 
   grunt.loadNpmTasks 'grunt-contrib-sass'
   grunt.loadNpmTasks 'grunt-contrib-cssmin'
@@ -44,5 +58,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-bower-task'
   grunt.loadNpmTasks 'grunt-contrib-clean'
+  grunt.loadNpmTasks 'grunt-regarde'
 
-  grunt.registerTask 'default', ['clean', 'bower:install', 'sass', 'csslint', 'concat', 'cssmin', 'coffee', 'uglify']
+  grunt.registerTask 'default', ['clean', 'bower:install', 'sass', 'csslint', 'concat', 'cssmin', 'coffee', 'uglify', 'regarde']
