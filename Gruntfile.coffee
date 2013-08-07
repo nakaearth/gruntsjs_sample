@@ -2,53 +2,68 @@ module.exports = (grunt) ->
   grunt.initConfig
     clean:
       build: ['build']
-      release: ['lib']
+      release: ['dist']
     sass:
       dist:
         files:
-          'build/css/app.css': ['sass/base.sass']
+          'build/sass/app.css': ['sass/base.sass']
     csslint:
       strict:
-        src: ['builod/css/app.css', 'css/application.css']
+        src: ['build/sass/app.css', 'css/application.css']
     concat:
       dist:
         dest: 'build/css/app.css'
-        src: ['build/css/app.css', 'css/application.css']
+        src: ['build/sass/app.css', 'css/application.css']
     cssmin:
       compress:
         files:
-          'lib/css/app.min.css': 'build/css/app.css'
+          'dist/css/app.min.css': 'build/css/app.css'
     coffee:
       compile:
         files:
-          'build/javascripts/app.js': ['coffee/base.coffee']
+          'build/coffee/app.js': ['coffee/base.coffee']
     uglify:
       my_target:
         files:
-          'lib/javascripts/app.min.js': ['build/javascripts/app.js', 'javascripts/application.js']
+          'dist/javascripts/app.min.js': ['build/coffee/app.js', 'javascripts/application.js']
     bower:
       install:
         options:
-          targetDir: './lib/javascripts'
+          targetDir: 'dist/javascripts'
           install: true
           verbose: false
           layout: 'byComponent'
           cleanTagetDir: true
           cleanBowerDir: false
-    regarde:
+    watch:
+      html:
+        files: ['*.html']
+        options:
+          livereload: true
       js:
         files: ['javascripts/*.js']
         tasks: ['uglify']
+        options:
+          livereload: true
       coffee:
         files: ['coffee/*.coffee']
         tasks: ['coffee', 'uglify']
+        options:
+          livereload: true
       css:
         files: ['css/*.css']
         tasks: ['csslint', 'concat', 'cssmin']
+        options:
+          livereload: true
       sass:
         files: ['sass/*.sass']
         tasks: ['sass', 'csslint', 'concat', 'cssmin']
- 
+        options:
+          livereload: true
+    connect:
+      server:
+        options:
+          port: 9000
 
   grunt.loadNpmTasks 'grunt-contrib-sass'
   grunt.loadNpmTasks 'grunt-contrib-cssmin'
@@ -58,6 +73,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-bower-task'
   grunt.loadNpmTasks 'grunt-contrib-clean'
-  grunt.loadNpmTasks 'grunt-regarde'
+  grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-connect'
 
-  grunt.registerTask 'default', ['clean', 'bower:install', 'sass', 'csslint', 'concat', 'cssmin', 'coffee', 'uglify', 'regarde']
+  grunt.registerTask 'default', ['clean', 'bower:install', 'sass', 'csslint', 'concat', 'cssmin', 'coffee', 'uglify', 'connect', 'watch']

@@ -2,5 +2,9 @@
  * コメント
  */
 function hello() {
-  return 'Hello World!'
+  alert('hello world!');
+}
+
+function add(a, b) {
+  return a + b;
 }
